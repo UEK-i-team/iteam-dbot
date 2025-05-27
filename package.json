@@ -1,0 +1,26 @@
+{
+  "name": "iteam-dbot",
+  "version": "1.0.0",
+  "description": "This is a Discord bot project designated to deliver value for operational purposes of i::team science club.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UEK-i-team/iteam-dbot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UEK-i-team/iteam-dbot/issues"
+  },
+  "homepage": "https://github.com/UEK-i-team/iteam-dbot#readme",
+  "dependencies": {
+    "discord.js": "^14.19.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "eslint": "^9.27.0"
+  }
+}
