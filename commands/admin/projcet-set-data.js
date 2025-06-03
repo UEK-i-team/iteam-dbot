@@ -29,6 +29,9 @@ module.exports = {
 			return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true });
 		}
 		const filePath = './data/channels.json';
+		if (!fs.existsSync('./data')) {
+			fs.mkdirSync('./data');
+		}
 		if (!fs.existsSync(filePath)) {
 			fs.writeFileSync(filePath, '{}', 'utf8');
 		}
