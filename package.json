@@ -4,7 +4,9 @@
   "description": "This is a Discord bot project designated to deliver value for operational purposes of i::team science club.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "public-ip:emulate": "npx localtunnel --port 3000"
   },
   "repository": {
     "type": "git",
@@ -17,11 +19,14 @@
   },
   "homepage": "https://github.com/UEK-i-team/iteam-dbot#readme",
   "dependencies": {
+    "crypto": "^1.0.1",
     "discord.js": "^14.19.3",
-    "dotenv": "^16.5.0"
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",
-    "eslint": "^9.27.0"
+    "eslint": "^9.27.0",
+    "localtunnel": "^2.0.2"
   }
 }

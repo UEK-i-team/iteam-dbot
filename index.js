@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 require('dotenv').config();
-const token = process.env.TOKEN;
+const GitHubWebhookHandler = require('./services/githubWebhook');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -38,4 +38,11 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
-client.login(token);
+
+client.once('ready', () => {
+	console.log('Discord bot is ready!');
+	const webhookHandler = new GitHubWebhookHandler(client);
+	webhookHandler.start();
+});
+
+client.login(process.env.DISCORD_TOKEN);
