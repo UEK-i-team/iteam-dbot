@@ -68,7 +68,7 @@ const server = http.createServer((req, res) => {
 				}
 
 				// Check for valid status
-				if (payload.newStatus !== 'open' && payload.newStatus !== 'closed') {
+				if (payload.newStatus !== 'open' && payload.newStatus !== 'close') {
 					console.error('Invalid status received:', payload.newStatus);
 					res.writeHead(400);
 					res.end('Invalid status');
