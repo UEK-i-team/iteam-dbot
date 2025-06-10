@@ -1,10 +1,18 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const http = require('http');
 require('dotenv').config();
 const token = process.env.TOKEN;
+const doorApiKey = process.env.DOOR_API_KEY;
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent,
+	],
+});
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
@@ -38,4 +46,58 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
+
+const server = http.createServer((req, res) => {
+	if (req.method === 'POST' && req.url === '/door-status') {
+		let data = '';
+
+		req.on('data', chunk => {
+			data += chunk;
+		});
+
+		req.on('end', () => {
+			try {
+				const payload = JSON.parse(data);
+
+				// Validate API key
+				if (payload.apiKey !== doorApiKey) {
+					console.error('Invalid API key received');
+					res.writeHead(401);
+					res.end('Unauthorized');
+					return;
+				}
+
+				// Check for valid status
+				if (payload.newStatus !== 'open' && payload.newStatus !== 'closed') {
+					console.error('Invalid status received:', payload.newStatus);
+					res.writeHead(400);
+					res.end('Invalid status');
+					return;
+				}
+
+				// Trigger the door status change event
+				const doorStatusChangeEvent = require('./events/doorStatusChange');
+				doorStatusChangeEvent.execute(client, payload.newStatus);
+
+				res.writeHead(200);
+				res.end('Status updated');
+			}
+			catch (error) {
+				console.error('Error processing request:', error);
+				res.writeHead(400);
+				res.end('Invalid request');
+			}
+		});
+	}
+	else {
+		res.writeHead(404);
+		res.end('Not found');
+	}
+});
+
+const PORT = process.env.PORT;
+server.listen(PORT, () => {
+	console.log(`Server listening on port ${PORT}`);
+});
+
 client.login(token);
