@@ -17,7 +17,7 @@ module.exports = {
                 await channel.setName('kto-w-432-otwarty');
                 await channel.send('Pokój koła jest otwarty');
             }
-            else if (status === 'closed') {
+            else if (status === 'close') {
                 await channel.setName('kto-w-432-zamkniety');
                 await channel.send('Pokój koła jest zamknięty');
             }
