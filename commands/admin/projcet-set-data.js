@@ -26,7 +26,10 @@ module.exports = {
 
 	async execute(interaction) {
 		if (!interaction.member.permissions.has('ADMINISTRATOR')) {
-			return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true });
+			return interaction.reply({
+        content: 'You do not have permission to use this command.',
+        flags: MessageFlags.Ephemeral,
+      });
 		}
 		const filePath = './data/channels.json';
 		if (!fs.existsSync('./data')) {
